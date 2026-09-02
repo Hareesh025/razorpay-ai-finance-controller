@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Finance Controller</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="app-shell">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-mark">R</div>
+
+        <div>
+            <h2>Finance AI</h2>
+            <span>Control Center</span>
+        </div>
+
+    </div>
+
+
+    <nav class="navigation">
+
+        <p class="nav-label">OPERATIONS</p>
+
+        <button class="nav-item active" data-page="dashboard">
+            <span>⌂</span>
+            Command Center
+        </button>
+
+        <button class="nav-item" data-page="simulator">
+            <span>▶</span>
+            Payment Simulator
+        </button>
+
+        <button class="nav-item" data-page="investigation">
+            <span>✦</span>
+            AI Investigation
+        </button>
+
+        <button class="nav-item" data-page="recovery">
+            <span>↗</span>
+            Recovery Center
+        </button>
+
+
+        <p class="nav-label">FINANCE</p>
+
+        <button class="nav-item" data-page="transactions">
+            <span>▣</span>
+            Transactions
+        </button>
+
+        <button class="nav-item" data-page="revenue">
+            <span>₹</span>
+            Revenue Leak
+        </button>
+
+        <button class="nav-item" data-page="reconciliation">
+            <span>↔</span>
+            Reconciliation
+        </button>
+
+
+        <p class="nav-label">INTELLIGENCE</p>
+
+        <button class="nav-item" data-page="customers">
+            <span>♙</span>
+            Customers
+        </button>
+
+        <button class="nav-item" data-page="risk">
+            <span>◇</span>
+            Risk & Security
+        </button>
+
+        <button class="nav-item" data-page="insights">
+            <span>✧</span>
+            AI Insights
+        </button>
+
+
+        <p class="nav-label">SYSTEM</p>
+
+        <button class="nav-item" data-page="audit">
+            <span>◷</span>
+            Audit Trail
+        </button>
+
+        <button class="nav-item" data-page="health">
+            <span>♥</span>
+            System Health
+        </button>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            <div>
+                <strong>System Online</strong>
+                <small>API connected</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+        <!-- MAIN -->
+        <main class="main-content">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+
+                <div>
+                    <p class="breadcrumb">Finance Operations</p>
+                    <h1 id="pageTitle">Financial Control Center</h1>
+                </div>
+
+                <div class="topbar-actions">
+
+                    <button class="icon-button" title="Notifications">
+                        🔔
+                    </button>
+
+                    <button class="refresh-button" onclick="loadDashboard()">
+                        ↻ Refresh
+                    </button>
+
+                    <div class="user-profile">
+                        <div class="avatar">A</div>
+
+                        <div>
+                            <strong>Finance Admin</strong>
+                            <small>Controller</small>
+                        </div>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- PAGE CONTENT -->
+            <section id="app">
+
+                <div class="page-intro">
+
+                    <div>
+                        <span class="eyebrow">OVERVIEW</span>
+
+                        <h2>
+                            Monitor your financial operations
+                        </h2>
+
+                        <p>
+                            Track payments, reconciliation health,
+                            exceptions and financial risk from one place.
+                        </p>
+                    </div>
+
+                    <div class="live-indicator">
+                        <span class="status-dot"></span>
+                        Live data
+                    </div>
+
+                </div>
+
+
+                <!-- KPI CARDS -->
+                <div class="kpi-grid">
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-header">
+                            <span>Total Volume</span>
+                            <span class="kpi-icon">₹</span>
+                        </div>
+
+                        <strong id="totalAmount">Loading...</strong>
+
+                        <small>
+                            Processed transaction value
+                        </small>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-header">
+                            <span>Transactions</span>
+                            <span class="kpi-icon">▣</span>
+                        </div>
+
+                        <strong id="totalTransactions">Loading...</strong>
+
+                        <small>
+                            Total transactions monitored
+                        </small>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-header">
+                            <span>Failed Payments</span>
+                            <span class="kpi-icon warning">!</span>
+                        </div>
+
+                        <strong id="failedTransactions">Loading...</strong>
+
+                        <small>
+                            Require attention
+                        </small>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-header">
+                            <span>Match Rate</span>
+                            <span class="kpi-icon success">✓</span>
+                        </div>
+
+                        <strong id="matchRate">Loading...</strong>
+
+                        <small>
+                            Settlement reconciliation
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MAIN GRID -->
+                <div class="dashboard-grid">
+
+
+                    <!-- RECONCILIATION -->
+                    <div class="panel large-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="eyebrow">RECONCILIATION</span>
+                                <h3>Settlement health</h3>
+                            </div>
+
+                            <span class="panel-badge">
+                                Automated
+                            </span>
+
+                        </div>
+
+
+                        <div class="reconciliation-summary">
+
+                            <div class="recon-score">
+
+                                <div class="score-circle">
+                                    <span id="matchRateCircle">
+                                        --
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <strong>Reconciliation Match Rate</strong>
+                                    <p>
+                                        Automated transaction-to-settlement
+                                        matching.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="recon-stats">
+
+                                <div>
+                                    <span>Checked</span>
+                                    <strong id="checked">--</strong>
+                                </div>
+
+                                <div>
+                                    <span>Matched</span>
+                                    <strong id="matched">--</strong>
+                                </div>
+
+                                <div class="danger-stat">
+                                    <span>Unmatched</span>
+                                    <strong id="unmatched">--</strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RISK -->
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="eyebrow">RISK ENGINE</span>
+                                <h3>Risk overview</h3>
+                            </div>
+
+                        </div>
+
+                        <div class="risk-overview">
+
+                            <div class="risk-row">
+                                <span class="risk-dot low-dot"></span>
+                                <span>Low risk</span>
+                                <strong id="lowRisk">--</strong>
+                            </div>
+
+                            <div class="risk-row">
+                                <span class="risk-dot medium-dot"></span>
+                                <span>Medium risk</span>
+                                <strong id="mediumRisk">--</strong>
+                            </div>
+
+                            <div class="risk-row">
+                                <span class="risk-dot high-dot"></span>
+                                <span>High risk</span>
+                                <strong id="highRisk">--</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EXCEPTIONS -->
+                    <div class="panel large-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <span class="eyebrow">EXCEPTION QUEUE</span>
+                                <h3>Requires attention</h3>
+                            </div>
+
+                            <span class="alert-count" id="exceptionCount">
+                                --
+                            </span>
+
+                        </div>
+
+
+                        <div id="exceptionList" class="exception-list">
+
+                            <div class="empty-state">
+                                Loading exceptions...
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- AI INSIGHT -->
+                    <div class="panel ai-panel">
+
+                        <div class="ai-header">
+
+                            <div class="ai-symbol">
+                                ✦
+                            </div>
+
+                            <div>
+                                <span class="eyebrow">AI FINANCE INSIGHT</span>
+                                <h3>Controller recommendation</h3>
+                            </div>
+
+                        </div>
+
+                        <p id="aiInsight">
+                            Analyzing financial activity...
+                        </p>
+
+                        <div class="ai-action">
+                            Review reconciliation exceptions →
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="js/app.js"></script>
+
+</body>
+</html>
