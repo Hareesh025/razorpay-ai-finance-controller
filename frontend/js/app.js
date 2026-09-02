@@ -431,8 +431,8 @@ function loadInvestigationData() {
     `;
 
     Promise.all([
-        fetch("http://127.0.0.1:8000/transactions/analysis"),
-        fetch("http://127.0.0.1:8000/transactions/risk")
+        fetch("http://razorpay-ai-finance-controller.onrender.com/transactions/analysis"),
+        fetch("http://razorpay-ai-finance-controller.onrender.com/transactions/risk")
     ])
     .then(async ([analysisResponse, riskResponse]) => {
 
@@ -658,9 +658,9 @@ function loadRecoveryData() {
     const history = document.getElementById("recoveryHistory");
 
     Promise.all([
-        fetch("http://127.0.0.1:8000/transactions/analysis"),
-        fetch("http://127.0.0.1:8000/transactions/risk"),
-        fetch("http://127.0.0.1:8000/recovery/actions")
+        fetch("http://razorpay-ai-finance-controller.onrender.com/transactions/analysis"),
+        fetch("http://razorpay-ai-finance-controller.onrender.com/transactions/risk"),
+        fetch("http://razorpay-ai-finance-controller.onrender.com/recovery/actions")
     ])
     .then(async ([analysisResponse, riskResponse, historyResponse]) => {
 
@@ -1041,7 +1041,7 @@ async function loadTransactions() {
 
         const response =
             await fetch(
-                "http://127.0.0.1:8000/transactions/risk"
+                "http://razorpay-ai-finance-controller.onrender.com/transactions/risk"
             );
 
         const data = await response.json();
@@ -1148,8 +1148,8 @@ async function loadReconciliation() {
     try {
         const [reconciliationResponse, exceptionsResponse] =
             await Promise.all([
-                fetch("http://127.0.0.1:8000/reconciliation"),
-                fetch("http://127.0.0.1:8000/reconciliation/exceptions")
+                fetch("http://razorpay-ai-finance-controller.onrender.com/reconciliation"),
+                fetch("http://razorpay-ai-finance-controller.onrender.com/reconciliation/exceptions")
             ]);
 
         if (!reconciliationResponse.ok || !exceptionsResponse.ok) {
@@ -1424,7 +1424,7 @@ async function loadExceptions() {
 
     const response =
         await fetch(
-            "http://127.0.0.1:8000/reconciliation/exceptions"
+            "http://razorpay-ai-finance-controller.onrender.com/reconciliation/exceptions"
         );
 
     const data = await response.json();
@@ -1512,7 +1512,7 @@ async function loadRisk() {
 
     const response =
         await fetch(
-            "http://127.0.0.1:8000/transactions/risk"
+            "http://razorpay-ai-finance-controller.onrender.com/transactions/risk"
         );
 
     const data = await response.json();
@@ -1606,13 +1606,13 @@ async function loadInsightsData() {
     try {
 
         const reconciliationResponse =
-            await fetch("http://127.0.0.1:8000/reconciliation");
+            await fetch("http://razorpay-ai-finance-controller.onrender.com/reconciliation");
 
         const exceptionResponse =
-            await fetch("http://127.0.0.1:8000/reconciliation/exceptions");
+            await fetch("http://razorpay-ai-finance-controller.onrender.com/reconciliation/exceptions");
 
         const riskResponse =
-            await fetch("http://127.0.0.1:8000/transactions/risk");
+            await fetch("http://razorpay-ai-finance-controller.onrender.com/transactions/risk");
 
         if (
             !reconciliationResponse.ok ||
@@ -1925,19 +1925,19 @@ async function loadAuditData() {
         ] = await Promise.all([
 
             fetch(
-                "http://127.0.0.1:8000/transactions/summary"
+                "http://razorpay-ai-finance-controller.onrender.com/transactions/summary"
             ),
 
             fetch(
-                "http://127.0.0.1:8000/reconciliation"
+                "http://razorpay-ai-finance-controller.onrender.com/reconciliation"
             ),
 
             fetch(
-                "http://127.0.0.1:8000/reconciliation/exceptions"
+                "http://razorpay-ai-finance-controller.onrender.com/reconciliation/exceptions"
             ),
 
             fetch(
-                "http://127.0.0.1:8000/transactions/risk"
+                "http://razorpay-ai-finance-controller.onrender.com/transactions/risk"
             )
 
         ]);
@@ -2163,7 +2163,7 @@ async function loadDashboard() {
 
         const summaryResponse =
             await fetch(
-                "http://127.0.0.1:8000/transactions/summary"
+                "http://razorpay-ai-finance-controller.onrender.com/transactions/summary"
             );
 
         const summary =
@@ -2181,7 +2181,7 @@ async function loadDashboard() {
 
         const reconciliationResponse =
             await fetch(
-                "http://127.0.0.1:8000/reconciliation"
+                "http://razorpay-ai-finance-controller.onrender.com/reconciliation"
             );
 
         const reconciliation =
@@ -2205,7 +2205,7 @@ async function loadDashboard() {
 
         const exceptionResponse =
             await fetch(
-                "http://127.0.0.1:8000/reconciliation/exceptions"
+                "http://razorpay-ai-finance-controller.onrender.com/reconciliation/exceptions"
             );
 
         const exceptionData =
@@ -2251,7 +2251,7 @@ async function loadDashboard() {
 
         const riskResponse =
             await fetch(
-                "http://127.0.0.1:8000/transactions/risk"
+                "http://razorpay-ai-finance-controller.onrender.com/transactions/risk"
             );
 
         const riskData =
@@ -2338,7 +2338,7 @@ simulatorState.status = status;
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/payments/simulate",
+            "http://razorpay-ai-finance-controller.onrender.com/payments/simulate",
             {
                 method: "POST",
 
@@ -2600,7 +2600,7 @@ function showRevenue() {
 async function loadRevenueData() {
     try {
         const response = await fetch(
-            "http://127.0.0.1:8000/transactions/summary"
+            "http://razorpay-ai-finance-controller.onrender.com/transactions/summary"
         );
 
         if (!response.ok) {
@@ -2726,7 +2726,7 @@ function showCustomers() {
 async function loadCustomers() {
     try {
         const response = await fetch(
-            "http://127.0.0.1:8000/transactions/risk"
+            "http://razorpay-ai-finance-controller.onrender.com/transactions/risk"
         );
 
         if (!response.ok) {
@@ -2823,7 +2823,7 @@ window.simulatePayment = simulatePayment;
 async function resetSimulations() {
     try {
         const response = await fetch(
-            "http://127.0.0.1:8000/payments/reset",
+            "http://razorpay-ai-finance-controller.onrender.com/payments/reset",
             {
                 method: "POST"
             }
@@ -2850,7 +2850,7 @@ window.resetSimulations = resetSimulations;
 async function initiateRecovery(transactionId, amount, risk) {
     try {
         const response = await fetch(
-            "http://127.0.0.1:8000/recovery/initiate",
+            "http://razorpay-ai-finance-controller.onrender.com/recovery/initiate",
             {
                 method: "POST",
                 headers: {
@@ -2924,7 +2924,7 @@ async function showHealth() {
 
     try {
         const response = await fetch(
-            "http://127.0.0.1:8000/health"
+            "http://razorpay-ai-finance-controller.onrender.com/health"
         );
 
         const data = await response.json();
