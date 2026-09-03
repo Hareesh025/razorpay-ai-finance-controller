@@ -26,6 +26,17 @@ def transaction_summary():
     total_amount = df["amount"].sum()
     successful_amount = df[df["status"] == "success"]["amount"].sum()
 
+    # Include simulated transactions
+    for transaction in simulated_transactions:
+        total_transactions += 1
+        total_amount += transaction["amount"]
+
+        if transaction["status"] == "success":
+            successful_transactions += 1
+            successful_amount += transaction["amount"]
+        else:
+            failed_transactions += 1
+
     return {
         "total_transactions": total_transactions,
         "successful_transactions": successful_transactions,
@@ -74,6 +85,21 @@ def reconciliation():
         merged["amount"] == merged["settled_amount"]
     )
 
+    # Add simulated payments as unsettled transactions
+    for transaction in simulated_transactions:
+        simulated_row = {
+            "transaction_id": transaction["transaction_id"],
+            "amount": transaction["amount"],
+            "settled_amount": None,
+            "settlement_status": None,
+            "amount_match": False
+        }
+
+        merged = pd.concat(
+            [merged, pd.DataFrame([simulated_row])],
+            ignore_index=True
+        )
+
     matched = merged[
         (merged["settlement_status"] == "settled") &
         (merged["amount_match"] == True)
@@ -96,21 +122,19 @@ def reconciliation():
     )
 
     matched_value = matched["amount"].sum()
-
     exception_value = unmatched["amount"].sum()
 
     missing_settlement_value = merged[
         merged["settlement_status"].isna()
     ]["amount"].sum()
 
+    settled_rows = merged[
+        merged["settled_amount"].notna()
+    ]
+
     amount_variance = (
-        merged[
-            merged["settled_amount"].notna()
-        ]["amount"]
-        -
-        merged[
-            merged["settled_amount"].notna()
-        ]["settled_amount"]
+        settled_rows["amount"] -
+        settled_rows["settled_amount"]
     ).abs().sum()
 
     return {
@@ -118,12 +142,10 @@ def reconciliation():
         "matched_transactions": matched_count,
         "unmatched_transactions": unmatched_count,
         "match_rate_percent": match_rate,
-
         "matched_value": int(matched_value),
         "exception_value": int(exception_value),
         "missing_settlement_value": int(missing_settlement_value),
         "amount_variance": int(amount_variance),
-
         "processing_throughput": total
     }
 @app.get("/reconciliation/exceptions")

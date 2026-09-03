@@ -1831,10 +1831,8 @@ async function loadInsightsData() {
 }
 
 function showAudit() {
-
     app.innerHTML = `
         <div class="page-intro">
-
             <div>
                 <span class="eyebrow">SYSTEM MONITORING</span>
 
@@ -1845,7 +1843,12 @@ function showAudit() {
                 </p>
             </div>
 
+            <div class="live-indicator">
+                <span class="status-dot"></span>
+                Live system data
+            </div>
         </div>
+
 
         <div class="dashboard-grid">
 
@@ -1859,7 +1862,7 @@ function showAudit() {
                     Backend connection
                 </h3>
 
-                <div class="live-indicator">
+                <div class="system-status">
                     <span class="status-dot"></span>
                     System Online
                 </div>
@@ -1886,7 +1889,7 @@ function showAudit() {
         </div>
 
 
-        <div class="panel" style="margin-top:18px;">
+        <div class="panel">
 
             <div class="panel-header">
 
@@ -1900,9 +1903,14 @@ function showAudit() {
                     </h3>
                 </div>
 
+                <span class="panel-badge">
+                    Live
+                </span>
+
             </div>
 
-            <div id="auditContent">
+
+            <div id="auditSummary">
                 Loading audit data...
             </div>
 
@@ -1911,84 +1919,39 @@ function showAudit() {
 
     loadAuditData();
 }
-
-
 async function loadAuditData() {
-
     try {
 
-        const [
-            summaryResponse,
-            reconciliationResponse,
-            exceptionsResponse,
-            riskResponse
-        ] = await Promise.all([
+        const summaryResponse = await fetch(
+            "https://razorpay-ai-finance-controller.onrender.com/transactions/summary"
+        );
 
-            fetch(
-                "https://razorpay-ai-finance-controller.onrender.com/transactions/summary"
-            ),
-
-            fetch(
-                "https://razorpay-ai-finance-controller.onrender.com/reconciliation"
-            ),
-
-            fetch(
-                "https://razorpay-ai-finance-controller.onrender.com/reconciliation/exceptions"
-            ),
-
-            fetch(
-                "https://razorpay-ai-finance-controller.onrender.com/transactions/risk"
-            )
-
-        ]);
+        const summary = await summaryResponse.json();
 
 
-        if (
-            !summaryResponse.ok ||
-            !reconciliationResponse.ok ||
-            !exceptionsResponse.ok ||
-            !riskResponse.ok
-        ) {
-            throw new Error(
-                "Unable to load audit information."
-            );
-        }
+        const reconciliationResponse = await fetch(
+            "https://razorpay-ai-finance-controller.onrender.com/reconciliation"
+        );
+
+        const reconciliation = await reconciliationResponse.json();
 
 
-        const summary =
-            await summaryResponse.json();
+        const exceptionResponse = await fetch(
+            "https://razorpay-ai-finance-controller.onrender.com/reconciliation/exceptions"
+        );
 
-        const reconciliation =
-            await reconciliationResponse.json();
-
-        const exceptions =
-            await exceptionsResponse.json();
-
-        const riskData =
-            await riskResponse.json();
+        const exceptionData = await exceptionResponse.json();
 
 
-        const highRisk =
-            riskData.transactions.filter(
-                transaction =>
-                    transaction.risk === "HIGH"
-            ).length;
+        const auditSummary =
+            document.getElementById("auditSummary");
 
 
-        const auditContent =
-            document.getElementById("auditContent");
+        auditSummary.innerHTML = `
 
+            <div class="metric-grid">
 
-        if (!auditContent) {
-            return;
-        }
-
-
-        auditContent.innerHTML = `
-
-            <div class="recon-financial-metrics">
-
-                <div class="recon-financial-card">
+                <div class="metric-card">
                     <span>Transactions Processed</span>
                     <strong>
                         ${summary.total_transactions}
@@ -1996,7 +1959,7 @@ async function loadAuditData() {
                 </div>
 
 
-                <div class="recon-financial-card">
+                <div class="metric-card">
                     <span>Successful Payments</span>
                     <strong>
                         ${summary.successful_transactions}
@@ -2004,7 +1967,7 @@ async function loadAuditData() {
                 </div>
 
 
-                <div class="recon-financial-card">
+                <div class="metric-card">
                     <span>Reconciliation Rate</span>
                     <strong>
                         ${reconciliation.match_rate_percent}%
@@ -2012,145 +1975,88 @@ async function loadAuditData() {
                 </div>
 
 
-                <div class="recon-financial-card">
+                <div class="metric-card">
                     <span>Unresolved Exceptions</span>
                     <strong>
-                        ${exceptions.exception_count}
+                        ${exceptionData.exception_count}
                     </strong>
                 </div>
 
             </div>
 
 
-            <div class="audit-control-list">
+            <div class="exception-item">
 
-                <div class="exception-item">
-
-                    <div>
-                        <strong>
-                            Reconciliation Control
-                        </strong>
-
-                        <p>
-                            ${reconciliation.matched_transactions}
-                            of
-                            ${reconciliation.total_transactions_checked}
-                            transactions matched successfully.
-                        </p>
-                    </div>
-
+                <div>
                     <strong>
-                        ${reconciliation.match_rate_percent}%
+                        Reconciliation Control
                     </strong>
 
+                    <p>
+                        ${reconciliation.matched_transactions}
+                        of
+                        ${reconciliation.total_transactions_checked}
+                        transactions matched successfully.
+                    </p>
                 </div>
 
+                <strong>
+                    ${reconciliation.match_rate_percent}%
+                </strong>
 
-                <div class="exception-item">
+            </div>
 
-                    <div>
-                        <strong>
-                            Exception Control
-                        </strong>
 
-                        <p>
-                            ${exceptions.exception_count}
-                            unresolved financial exceptions require review.
-                        </p>
-                    </div>
+            <div class="exception-item">
 
+                <div>
                     <strong>
-                        REVIEW
+                        Exception Control
                     </strong>
 
+                    <p>
+                        ${exceptionData.exception_count}
+                        unresolved financial exceptions require review.
+                    </p>
                 </div>
 
-
-                <div class="exception-item">
-
-                    <div>
-                        <strong>
-                            Risk Control
-                        </strong>
-
-                        <p>
-                            ${highRisk}
-                            high-risk transactions are currently flagged.
-                        </p>
-                    </div>
-
-                    <strong>
-                        ${highRisk > 0 ? "REVIEW" : "CLEAR"}
-                    </strong>
-
-                </div>
-
-
-                <div class="exception-item">
-
-                    <div>
-                        <strong>
-                            Settlement Control
-                        </strong>
-
-                        <p>
-                            ₹${Number(
-                                reconciliation.missing_settlement_value || 0
-                            ).toLocaleString("en-IN")}
-                            is associated with missing settlements.
-                        </p>
-                    </div>
-
-                    <strong>
-                        REVIEW
-                    </strong>
-
-                </div>
+                <strong>
+                    REVIEW
+                </strong>
 
             </div>
 
         `;
-        
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(
             "Audit error:",
             error
         );
 
+        const auditSummary =
+            document.getElementById("auditSummary");
 
-        const auditContent =
-            document.getElementById("auditContent");
+        auditSummary.innerHTML = `
+            <div class="exception-item">
 
+                <div>
+                    <strong>
+                        Unable to load audit data
+                    </strong>
 
-        if (auditContent) {
-
-            auditContent.innerHTML = `
-
-                <div class="exception-item">
-
-                    <div>
-                        <strong>
-                            Backend Connection Error
-                        </strong>
-
-                        <p>
-                            Unable to load audit information.
-                            Make sure the FastAPI server is running.
-                        </p>
-                    </div>
-
+                    <p>
+                        Please refresh the page and try again.
+                    </p>
                 </div>
 
-            `;
-
-        }
-
+            </div>
+        `;
     }
-
 }
-
 
 loadDashboard();
 
