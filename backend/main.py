@@ -163,6 +163,20 @@ def reconciliation_exceptions():
     merged["amount_match"] = (
         merged["amount"] == merged["settled_amount"]
     )
+    # Add simulated payments as unsettled exceptions
+    for transaction in simulated_transactions:
+        simulated_row = {
+            "transaction_id": transaction["transaction_id"],
+            "amount": transaction["amount"],
+            "settled_amount": None,
+            "settlement_status": None,
+            "amount_match": False
+        }
+
+        merged = pd.concat(
+            [merged, pd.DataFrame([simulated_row])],
+            ignore_index=True
+        )
 
     exceptions = merged[
         ~(
