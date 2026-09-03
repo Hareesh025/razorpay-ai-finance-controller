@@ -1,4 +1,15 @@
 # Razorpay AI Finance Controller
+## 🚀 Live Demo
+
+**Live Website:** https://razorpay-ai-finance-controller-1.onrender.com
+
+**GitHub Repository:** https://github.com/Hareesh025/razorpay-ai-finance-controller
+
+### Documentation
+
+- [System Architecture](docs/architecture.md)
+- [Reconciliation Engine](docs/reconciliation.md)
+- [API Documentation](docs/api.md)
 
 An AI-powered finance operations control center for monitoring payments, analyzing transaction risk, reconciling settlements, investigating exceptions, and initiating recovery actions.
 
