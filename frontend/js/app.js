@@ -221,14 +221,6 @@ function showSimulator() {
     Process Payment →
 </button>
 
-<button
-    class="secondary-btn"
-    onclick="resetSimulations()"
-    style="margin-top:10px; width:100%;"
->
-    Reset Simulation Data
-</button>
-
             </div>
 
 

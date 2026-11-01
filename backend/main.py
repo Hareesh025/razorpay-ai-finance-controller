@@ -314,15 +314,6 @@ def simulate_payment(data: dict):
         "risk": risk,
         "message": message
     }
-@app.post("/payments/reset")
-def reset_simulations():
-    simulated_transactions.clear()
-    recovery_actions.clear()
-
-    return {
-        "success": True,
-        "message": "All simulated transactions and recovery actions have been cleared."
-    }
 @app.post("/recovery/initiate")
 def initiate_recovery(data: dict):
 
